@@ -260,9 +260,16 @@ class MapUnit {
     fun isIdle(): Boolean {
         if (currentMovement == 0f) return false
         // Constants.workerUnique deprecated since 3.15.5
-        if (getTile().improvementInProgress != null 
-            && canBuildImprovement(getTile().getTileImprovementInProgress()!!)) 
-                return false
+        // So a user was getting a weird crash, where (according to the stacktrace) improvementInProgress != null, 
+        // yet civInfo.gameInfo.ruleSet.tileImprovements[improvementInProgress] == null
+        // I have no idea how that would be possible, but I bandaged everything here so it is no completely impossible,
+        // both as a result of concurrency checks and as invalid improvements being under construction
+        val improvementInProgress = getTile().improvementInProgress
+        if (improvementInProgress != null) {
+            val improvementInProgressObject = civInfo.gameInfo.ruleSet.tileImprovements[improvementInProgress]
+            if (improvementInProgressObject == null || canBuildImprovement(improvementInProgressObject))
+                return false  
+        } 
         // unique "Can construct roads" deprecated since 3.15.5
             if (hasUnique("Can construct roads") && currentTile.improvementInProgress == "Road") return false
         //

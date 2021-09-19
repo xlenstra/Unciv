@@ -220,10 +220,6 @@ class CityStats(val cityInfo: CityInfo) {
         val stats = Stats()
 
         for (unique in uniques.toList()) { // Should help mitigate getConstructionButtonDTOs concurrency problems.
-            if (unique.isOfType(UniqueType.Stats) && unique.conditionalsApply(cityInfo.civInfo, cityInfo)) {
-                stats.add(unique.stats)
-            }
-            
             if (unique.isOfType(UniqueType.StatsPerCity) && cityInfo.matchesFilter(unique.params[1]) && unique.conditionalsApply(cityInfo.civInfo))
                 stats.add(unique.stats)
 

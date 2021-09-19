@@ -46,7 +46,7 @@ class Unique(val text:String) {
         return when (condition.placeholderText) {
             "when not at war" -> civInfo?.isAtWar() == false
             "when at war" -> civInfo?.isAtWar() == true
-            "if this city has at least [] specialists" -> city != null && city.population.getNumberOfSpecialists() >= condition.params[0].toInt()
+            "if the city has at least [] specialists" -> city != null && city.population.getNumberOfSpecialists() >= condition.params[0].toInt()
             else -> false
         }
     }

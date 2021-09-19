@@ -14,7 +14,6 @@ enum class UniqueTarget{
 
 enum class UniqueType(val text:String, val replacedBy: UniqueType? = null) {
     
-    Stats("[stats]"),
     StatsPerCity("[stats] [cityFilter]"),
 
     ConsumesResources("Consumes [amount] [resource]"), // No conditional support as of yet
